@@ -15,16 +15,27 @@ import javax.swing.JOptionPane;
 public class CalculadoraCliente {
 
     public static void main(String[] args) {
+        char oper;
+        float op2 = 0;
+        float op1 = 0;
+        Requisicao r;
+        Resposta resp = null;
         try {
+            
             Calculadora c
                     = (Calculadora) Naming.lookup("rmi://localhost:1099/CalculatorService");
+            do{
+            oper = JOptionPane.showInputDialog("Digite a operação desejada ou S para sair:").charAt(0);
+            if(oper == 's'){
+              break;
+            }
+            op1 = Float.parseFloat(JOptionPane.showInputDialog("Digite o Primeiro operando:"));
+            op2 = Float.parseFloat(JOptionPane.showInputDialog("Digite o Segundo operando:"));
+            
 
-            float op1 = Float.parseFloat(JOptionPane.showInputDialog("Digite o Primeiro operando:"));
-            float op2 = Float.parseFloat(JOptionPane.showInputDialog("Digite o Segundo operando:"));
-            char oper = JOptionPane.showInputDialog("Digite a operação desejada:").charAt(0);
-
-            Requisicao r = new Requisicao(op1, op2);
-            Resposta resp = new Resposta();
+            r = new Requisicao(op1, op2);
+//            resp = new Resposta();
+            
             switch (oper) {
                 case '+':
                     resp = c.add(r);
@@ -42,18 +53,26 @@ public class CalculadoraCliente {
                     resp.setStatus(1);
                     break;
             }
-
+            
+            }while(oper!='s');        
 //            System.out.println(c.sub(4, 3));
 //            System.out.println(c.add(4, 5));
 //            System.out.println(c.mul(3, 6));
 //            System.out.println(c.div(3, 0));
+              
+              if(op1 == 0 && op2 == 0 && resp == null){
+               System.out.println("Nenhuma operação realizada.");
+              }else{
 
+              
               System.out.println("O resultado para a Operacao: "+op1+" " + oper + " " + op2 + " =");
               if(resp.getStatus() != 1){
                 System.out.println(resp.getResult());
               }else{
                System.out.println("Operação nao Realizada. Divisão Por ZERO!!!");
               }
+              }
+              
              
 
         } catch (Exception e) {
