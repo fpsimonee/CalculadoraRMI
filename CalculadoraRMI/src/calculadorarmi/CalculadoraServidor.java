@@ -14,7 +14,7 @@ public class CalculadoraServidor {
             Registry r = LocateRegistry.createRegistry(1099);            
             Calculadora c = new CalculadoraImpl();
             Naming.rebind(rmiServerName, c);
-            System.out.println("Servidor startado com sucesso!");
+//            System.out.println("Servidor startado com sucesso!");
         } catch (Exception e) {
             System.out.println("Trouble: " + e);
         }

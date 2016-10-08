@@ -5,7 +5,6 @@
  */
 package calculadorarmi;
 
-
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -13,35 +12,55 @@ import java.rmi.server.UnicastRemoteObject;
  *
  * @author felipe
  */
-public class CalculadoraImpl extends UnicastRemoteObject implements Calculadora{
-    
-    
-    public CalculadoraImpl() throws RemoteException{
-       super();    
+public class CalculadoraImpl extends UnicastRemoteObject implements Calculadora {
+
+    public CalculadoraImpl() throws RemoteException {
+        super();
     }
 
     @Override
-    public long add(long a, long b) throws RemoteException {
-       
-      return a+b;
+    public Resposta add(Requisicao r) throws RemoteException {
+        Resposta resp = new Resposta();
+
+        resp.setResult((r.getOp1()) + (r.getOp2()));
+        resp.setStatus(0);
+        return resp;
+
     }
 
     @Override
-    public long sub(long a, long b) throws RemoteException {
-       
-      return a-b;
+    public Resposta sub(Requisicao r) throws RemoteException {
+        Resposta resp = new Resposta();
+
+        resp.setResult((r.getOp1()) - (r.getOp2()));
+        resp.setStatus(0);
+        return resp;
+
     }
 
     @Override
-    public long mul(long a, long b) throws RemoteException {
-    
-      return a*b;
+    public Resposta mul(Requisicao r) throws RemoteException {
+        Resposta resp = new Resposta();
+
+        resp.setResult((r.getOp1()) * (r.getOp2()));
+        resp.setStatus(0);
+        return resp;
+
     }
 
     @Override
-    public long div(long a, long b) throws RemoteException {
-      
-      return a/b;
+    public Resposta div(Requisicao r) throws RemoteException {
+        Resposta resp = new Resposta();
+        if (r.getOp2() == 0) {
+            
+            resp.setStatus(1);
+
+        } else {
+
+            resp.setResult((r.getOp1()) / (r.getOp2()));
+            resp.setStatus(0);
+
+        }
+        return resp;
     }
-    
 }
